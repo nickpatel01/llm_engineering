@@ -44,7 +44,18 @@ class GradioUI:
         return temperature, top_k, top_p
 
     def build_and_launch(self):
-        with gr.Blocks() as gui:
+        # Force dark mode JavaScript
+        force_dark_mode = """
+        function refresh() {
+            const url = new URL(window.location);
+            if (url.searchParams.get('__theme') !== 'dark') {
+                url.searchParams.set('__theme', 'dark');
+                window.location.href = url.href;
+            }
+        }
+        """
+        
+        with gr.Blocks(js=force_dark_mode) as gui:
             gr.Markdown("# LLM Translator")
             with gr.Tab("Translate"):
                 with gr.Row():
